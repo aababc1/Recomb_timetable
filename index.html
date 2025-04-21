@@ -65,12 +65,12 @@
   </style>
 </head>
 <body>
-  <h1>PDF QR 다운로더</h1>
+  <h1>PDF QR downloader</h1>
   
   <div class="pdf-container">
     <h2>PDF 목록</h2>
     <ul id="pdfList">
-      <li>PDF 목록을 불러오는 중...</li>
+      <li>PDF files listing...</li>
     </ul>
   </div>
   
@@ -78,22 +78,18 @@
     <h2>QR 코드</h2>
     <div id="qrcode"></div>
     <p id="fileName"></p>
-    <a id="downloadLink" href="#" target="_blank" class="btn">PDF 직접 다운로드</a>
+    <a id="downloadLink" href="#" target="_blank" class="btn">PDF download </a>
   </div>
   
   <script>
     // GitHub 사용자명과 리포지토리명 설정
-    // 실제 사용시 아래 값을 본인의 GitHub 사용자명과 리포지토리명으로 변경하세요
     const githubUsername = 'aababc1';
     const repoName = 'Recomb_timetable';
     
-    // PDF 파일 리스트 (GitHub에 업로드한 PDF 파일 이름 리스트)
+    // PDF 
     // pdfs 폴더에 업로드한 PDF 파일들의 이름을 여기에 추가하세요
     const pdfFiles = [
-      'document1.pdf',
-      'document2.pdf',
-      'document3.pdf'
-      // 추가 PDF 파일들...
+      'Time_Table.pdf'
     ];
     
     // 페이지 로드 시 PDF 목록 표시
