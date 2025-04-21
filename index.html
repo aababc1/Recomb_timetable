@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF QR 다운로더</title>
+  <title>RECOMB 2025 Time Table</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     body {
@@ -12,158 +12,94 @@
       margin: 0 auto;
       padding: 20px;
       text-align: center;
+      background-color: #f8f9fa;
     }
     h1 {
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+      color: #333;
     }
-    .pdf-container {
-      margin-bottom: 30px;
+    h2 {
+      color: #444;
+      margin-top: 10px;
     }
-    #pdfList {
-      list-style: none;
-      padding: 0;
-      text-align: left;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    #pdfList li {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #pdfList li:hover {
-      background-color: #f5f5f5;
+    .main-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
     }
     #qrcode {
-      margin: 20px auto;
-      max-width: 256px;
+      margin: 30px auto;
+      max-width: 280px;
     }
-    .hidden {
-      display: none;
-    }
-    .btn {
-      background-color: #4CAF50;
+    .download-btn {
+      background-color: #4285f4;
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 12px 24px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 14px;
-    }
-    .btn-sm {
-      padding: 5px 8px;
-      font-size: 12px;
-    }
-    #downloadLink {
-      margin-top: 10px;
+      font-size: 16px;
+      margin-top: 20px;
+      text-decoration: none;
       display: inline-block;
-      color: #1a73e8;
+      transition: background-color 0.3s;
+    }
+    .download-btn:hover {
+      background-color: #3367d6;
+    }
+    .info-text {
+      color: #666;
+      margin: 20px 0;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <h1>PDF QR downloader</h1>
-  
-  <div class="pdf-container">
-    <h2>PDF 목록</h2>
-    <ul id="pdfList">
-      <li>PDF files listing...</li>
-    </ul>
-  </div>
-  
-  <div id="qrContainer" class="hidden">
-    <h2>QR 코드</h2>
+  <div class="main-container">
+    <h1>RECOMB 2025</h1>
+    <h2>Time Table</h2>
+    
+    <div class="info-text">
+      Scan the QR code below to download the Time Table
+    </div>
+    
     <div id="qrcode"></div>
-    <p id="fileName"></p>
-    <a id="downloadLink" href="#" target="_blank" class="btn">PDF download </a>
+    
+    <a id="downloadLink" href="#" target="_blank" class="download-btn">Download Time Table</a>
   </div>
   
   <script>
-    // GitHub 사용자명과 리포지토리명 설정
+    // GitHub username and repository name settings
     const githubUsername = 'aababc1';
     const repoName = 'Recomb_timetable';
+    const fileName = 'Time_Table.pdf';
     
-    // PDF 
-    // pdfs 폴더에 업로드한 PDF 파일들의 이름을 여기에 추가하세요
-    const pdfFiles = [
-      'Time_Table.pdf'
-    ];
-    
-    // 페이지 로드 시 PDF 목록 표시
     document.addEventListener('DOMContentLoaded', () => {
-      displayPdfList();
+      generateQR();
     });
     
-    // PDF 목록 표시 함수
-    function displayPdfList() {
-      const list = document.getElementById('pdfList');
-      list.innerHTML = '';
-      
-      if (pdfFiles.length === 0) {
-        list.innerHTML = '<li>등록된 PDF가 없습니다.</li>';
-        return;
-      }
-      
-      pdfFiles.forEach(file => {
-        const li = document.createElement('li');
-        
-        const fileNameSpan = document.createElement('span');
-        fileNameSpan.textContent = file;
-        li.appendChild(fileNameSpan);
-        
-        const buttonContainer = document.createElement('div');
-        
-        const qrButton = document.createElement('button');
-        qrButton.textContent = 'QR 생성';
-        qrButton.className = 'btn btn-sm';
-        qrButton.onclick = (e) => {
-          e.stopPropagation();
-          generateQR(file);
-        };
-        buttonContainer.appendChild(qrButton);
-        
-        li.appendChild(buttonContainer);
-        li.onclick = () => generateQR(file);
-        list.appendChild(li);
-      });
-    }
-    
-    // QR 코드 생성 함수
-    function generateQR(fileName) {
-      const qrContainer = document.getElementById('qrContainer');
+    // QR code generation function
+    function generateQR() {
       const qrcode = document.getElementById('qrcode');
-      const fileNameElement = document.getElementById('fileName');
       const downloadLink = document.getElementById('downloadLink');
       
-      // PDF 파일의 GitHub Pages URL 생성
-      // GitHub Pages URL 형식: https://username.github.io/repo-name/path/to/file
+      // Generate GitHub Pages URL for the PDF file
       const pdfUrl = `https://${githubUsername}.github.io/${repoName}/pdfs/${fileName}`;
       
-      // 기존 QR 코드 제거
-      qrcode.innerHTML = '';
-      
-      // 새 QR 코드 생성
+      // Generate QR code
       new QRCode(qrcode, {
         text: pdfUrl,
-        width: 256,
-        height: 256,
+        width: 280,
+        height: 280,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
       
-      // 파일 이름 표시
-      fileNameElement.textContent = `파일명: ${fileName}`;
-      
-      // 다운로드 링크 설정
+      // Set download link
       downloadLink.href = pdfUrl;
-      downloadLink.textContent = `${fileName} 다운로드`;
-      
-      // QR 컨테이너 표시
-      qrContainer.classList.remove('hidden');
     }
   </script>
 </body>
